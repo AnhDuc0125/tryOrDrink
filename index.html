@@ -8,15 +8,25 @@
     <link rel="stylesheet" href="./src/css/style.css" />
   </head>
   <body>
-    <div class="card-wrap">
+    <div class="card__list hide">
+      <button class="btn btn__close">
+        <img src="./src/icons/close-btn.svg" />
+      </button>
+      <h1 class="card__list--heading">DANH SÁCH THẺ</h1>
+      <div class="card__list--container"></div>
+    </div>
+    <div class="card__wrap">
       <div class="card">
         <div class="card__inner">
           <div class="card__face card__face--front">
             <div class="card__border">
               <div class="card__heading">
-                <h1>Thử</h1>
-                <h4>HAY</h4>
-                <h1>UỐNG</h1>
+                <h1>CỐ</h1>
+                <h4>KHÔNG</h4>
+                <h1>SAY</h1>
+              </div>
+              <div class="card__logo">
+                <img src="./src/icons/logo.svg" />
               </div>
               <div class="card__createBy">
                 <p>-- created by --</p>
@@ -26,13 +36,25 @@
           </div>
           <div class="card__face card__face--back">
             <div class="card__content">
-              <div class="card__header">
-                <h2></h2>
+              <div class="card__border">
+                <h2 class="card__title">
+                  UỐNG NẾU BẠN ĐÃ TỪNG CRUSH AI ĐÓ ĐANG NGỒI Ở ĐÂY
+                </h2>
+                <div class="card__icon">
+                  <img src="./src/icons/18.svg" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="btn__group">
+      <button class="btn btn__next">Chọn bài khác</button>
+      <button class="btn btn__add">
+        <!-- <ion-icon name="add-outline"></ion-icon> -->
+        <img src="./src/icons/add-btn.svg" />
+      </button>
     </div>
     <script src="./src/js/main.js"></script>
   </body>
