@@ -109,7 +109,6 @@ const app = {
     },
     {
       title: "Cốc ai còn đầu nhất thì uống thêm 1 ly",
-      icon: "./src/icons/laugh.svg",
     },
     {
       title: "Ai hút thuốc thì uống đi",
@@ -160,12 +159,12 @@ const app = {
       cardElm.classList.toggle("is-flipped");
       setTimeout(function () {
         soundElm.play();
-      }, 200);
-      if (!_this.isFliped) {
-        _this.getRandIndex();
-      }
-      _this.isFliped = true;
-      _this.getCurrentCard();
+        if (!_this.isFliped) {
+          _this.getRandIndex();
+        }
+        _this.isFliped = true;
+        _this.getCurrentCard();
+      }, 250);
     };
 
     nextBtn.onclick = function () {
