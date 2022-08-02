@@ -178,11 +178,48 @@ const app = {
     };
 
     infoBtn.onclick = function () {
-      cardElm.classList.add("is-flipped");
-      titleElm.textContent =
-        "Ngồi theo vòng tròn và đặt bộ bài ở giữa. Lần lượt bốc từng lá bài theo vòng và thực hiện nhiệm vụ trên mỗi lá. Mỗi người chỉ được uống 3 lần";
-      iconElm.parentElement.style.display = "block";
-      iconElm.src = "./src/icons/rule.svg";
+      let haveShowInfo = false;
+      if (cardElm.classList.contains("is-flipped")) {
+        cardElm.classList.remove("is-flipped");
+        haveShowInfo = false;
+        soundElm.play();
+
+        setTimeout(() => {
+          titleElm.textContent =
+            "Ngồi theo vòng tròn và đặt bộ bài ở giữa. Lần lượt bốc từng lá bài theo vòng và thực hiện nhiệm vụ trên mỗi lá. Mỗi người chỉ được uống 3 lần";
+          iconElm.parentElement.style.display = "block";
+          iconElm.src = "./src/icons/rule.svg";
+
+          cardElm.classList.add("is-flipped");
+          haveShowInfo = true;
+          soundElm.play();
+        }, 1000);
+      } else {
+        titleElm.textContent =
+          "Ngồi theo vòng tròn và đặt bộ bài ở giữa. Lần lượt bốc từng lá bài theo vòng và thực hiện nhiệm vụ trên mỗi lá. Mỗi người chỉ được uống 3 lần";
+        iconElm.parentElement.style.display = "block";
+        iconElm.src = "./src/icons/rule.svg";
+        cardElm.classList.add("is-flipped");
+        soundElm.play();
+      }
+
+      // if(hasShowedRule) {
+      //   cardElm.classList.remove("is-flipped");
+      // } else {
+
+      // }
+      // if (cardElm.classList.contains("is-flipped")) {
+      //   cardElm.classList.remove("is-flipped");
+      //   soundElm.play();
+
+      //   setTimeout(function () {
+      //     cardElm.classList.add("is-flipped");
+      //     hasShowedRule = true;
+      //   }, 1000);
+      // } else {
+      //   cardElm.classList.toggle("is-flipped");
+      // }
+      // // soundElm.play();
     };
 
     configBtn.onclick = function () {
