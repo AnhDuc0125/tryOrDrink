@@ -8,11 +8,15 @@
     <link rel="stylesheet" href="./src/css/style.css" />
   </head>
   <body>
+    <audio src="./src/sounds/flip_sound.mp3" hidden></audio>
     <div class="card__list hide">
       <button class="btn btn__close">
         <img src="./src/icons/close-btn.svg" />
       </button>
       <h1 class="card__list--heading">DANH SÁCH THẺ</h1>
+      <button class="btn btn__add">
+        <img src="./src/icons/add-btn.svg" />
+      </button>
       <div class="card__list--container"></div>
     </div>
     <div class="card__wrap">
@@ -37,11 +41,9 @@
           <div class="card__face card__face--back">
             <div class="card__content">
               <div class="card__border">
-                <h2 class="card__title">
-                  UỐNG NẾU BẠN ĐÃ TỪNG CRUSH AI ĐÓ ĐANG NGỒI Ở ĐÂY
-                </h2>
+                <h2 class="card__title"></h2>
                 <div class="card__icon">
-                  <img src="./src/icons/18.svg" />
+                  <img src="" />
                 </div>
               </div>
             </div>
@@ -51,9 +53,8 @@
     </div>
     <div class="btn__group">
       <button class="btn btn__next">Chọn bài khác</button>
-      <button class="btn btn__add">
-        <!-- <ion-icon name="add-outline"></ion-icon> -->
-        <img src="./src/icons/add-btn.svg" />
+      <button class="btn btn__config">
+        <img src="./src/icons/config.svg" />
       </button>
     </div>
     <script src="./src/js/main.js"></script>
