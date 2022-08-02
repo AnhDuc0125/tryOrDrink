@@ -25,15 +25,19 @@ body {
   background-position: center;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .card__wrap {
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
   height: fit-content;
-  top: 50%;
+  /* top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 }
 
 .card {
@@ -153,10 +157,10 @@ body {
 
 .btn__group {
   width: fit-content;
-  position: absolute;
-  bottom: 50px;
+  /* position: absolute; */
+  /* bottom: 50px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -180,6 +184,7 @@ body {
   align-items: center;
 }
 
+.btn__info,
 .btn__config,
 .btn__close {
   width: 40px;
@@ -196,6 +201,7 @@ body {
     brightness(101%) contrast(89%);
 }
 
+.btn__info img,
 .btn__add img,
 .btn__config img,
 .btn__close img,

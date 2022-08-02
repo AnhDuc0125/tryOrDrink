@@ -8,6 +8,7 @@ const cardListContainer = document.querySelector(".card__list--container");
 const closeBtn = document.querySelector(".btn__close");
 const soundElm = document.querySelector("audio");
 const addBtn = document.querySelector(".btn__add");
+const infoBtn = document.querySelector(".btn__info");
 
 const APP_STORAGE_KEY = "APP_STORAGE_KEY";
 
@@ -143,6 +144,11 @@ const app = {
       title:
         "Mọi người trong đây khi đến lượt đều phải uống 1 ly mà không dùng tay trừ người bốc trong 2 vòng",
     },
+    {
+      title:
+        "Người bốc lá bài này sẽ phải sủa như một chú chó mỗi khi đến lượt của mình và người đối diện trong 2 vòng",
+      icon: "./src/icons/dog.svg",
+    },
   ],
   setConfig() {
     localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(this.data));
@@ -170,6 +176,14 @@ const app = {
           _this.getRandIndex();
         }, 200);
       }
+    };
+
+    infoBtn.onclick = function () {
+      cardElm.classList.add("is-flipped");
+      titleElm.textContent =
+        "Ngồi theo vòng tròn và đặt bộ bài ở giữa. Lần lượt bốc từng lá bài theo vòng và thực hiện nhiệm vụ trên mỗi lá. Mỗi người chỉ được uống 3 lần";
+      iconElm.parentElement.style.display = "block";
+      iconElm.src = "./src/icons/rule.svg";
     };
 
     configBtn.onclick = function () {
