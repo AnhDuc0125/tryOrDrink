@@ -2,10 +2,12 @@ const nextBtn = document.querySelector(".btn__next");
 const cardElm = document.querySelector(".card__inner");
 const titleElm = document.querySelector(".card__title");
 const iconElm = document.querySelector(".card__icon img");
-const addBtn = document.querySelector(".btn__add");
+const configBtn = document.querySelector(".btn__config");
 const cardList = document.querySelector(".card__list");
 const cardListContainer = document.querySelector(".card__list--container");
 const closeBtn = document.querySelector(".btn__close");
+const soundElm = document.querySelector("audio");
+const addBtn = document.querySelector(".btn__add");
 
 const app = {
   repeatArr: [],
@@ -145,6 +147,7 @@ const app = {
 
     cardElm.onclick = function () {
       cardElm.classList.toggle("is-flipped");
+      soundElm.play();
       if (!_this.isFliped) {
         _this.getRandIndex();
       }
@@ -157,12 +160,76 @@ const app = {
       _this.getRandIndex();
     };
 
-    addBtn.onclick = function () {
+    configBtn.onclick = function () {
       cardList.classList.remove("hide");
     };
 
     closeBtn.onclick = function () {
       cardList.classList.add("hide");
+    };
+
+    _this.removeBtns.forEach((btn, index) => {
+      btn.onclick = function () {
+        let isConfirm = confirm("Bạn chắc chắn muốn xóa thẻ này chứ?");
+
+        if (!isConfirm) return;
+
+        _this.data.splice(index, 1);
+        _this.cards[index].style.display = "none";
+      };
+    });
+
+    _this.editBtns.forEach((btn) => {
+      btn.onclick = function () {
+        let element = btn;
+        while (element.parentElement) {
+          element = element.parentElement;
+          if (element.classList.contains("card__item")) {
+            break;
+          }
+        }
+
+        element.querySelector("textarea").focus();
+        element
+          .querySelector("textarea")
+          .setSelectionRange(0, this.value.length - 1);
+      };
+    });
+
+    addBtn.onclick = function () {
+      let cardItem = document.createElement("div");
+      let isCreate = true;
+
+      cardItem.classList.add("card__item");
+      cardItem.innerHTML = `
+          <div class="card__item--title">
+            <textarea rows="3"></textarea>
+          </div>
+          <div class="card__item--controller">
+            <button class="btn btn__horizontal btn__edit">
+              <img src="./src/icons/config-btn.svg" alt="" />
+            </button>
+            <button class="btn btn__horizontal btn__remove">
+              <img src="./src/icons/remove-btn.svg" alt="" />
+            </button>
+          </div>
+        `;
+
+      cardListContainer.prepend(cardItem);
+      let textArea = cardItem.querySelector("textarea");
+
+      textArea.focus();
+      textArea.onblur = function () {
+        if (this.value.trim()) {
+          if (isCreate) {
+            _this.data.push({ title: this.value });
+            isCreate = false;
+          } else {
+            _this.data.pop();
+            _this.data.push({ title: this.value });
+          }
+        }
+      };
     };
   },
   getRandIndex() {
@@ -191,21 +258,37 @@ const app = {
       },
     });
 
-    function remove(id) {
-      console.log(id);
-    }
+    Object.defineProperty(this, "cards", {
+      get() {
+        return document.querySelectorAll(".card__item");
+      },
+    });
+
+    Object.defineProperty(this, "removeBtns", {
+      get() {
+        return document.querySelectorAll(".btn__remove");
+      },
+    });
+
+    Object.defineProperty(this, "editBtns", {
+      get() {
+        return document.querySelectorAll(".btn__edit");
+      },
+    });
   },
   list() {
     let html = this.data
       .map(
-        (item, index) => `
+        (item) => `
           <div class="card__item">
-            <div class="card__item--title">${item.title}</div>
+            <div class="card__item--title">
+              <textarea spellcheck="false" rows="3">${item.title}</textarea>
+            </div>
             <div class="card__item--controller">
-              <button onclick="config(${index})" class="btn btn__horizontal btn__config">
+              <button class="btn btn__horizontal btn__edit">
                 <img src="./src/icons/config-btn.svg" alt="" />
               </button>
-              <button onclick="remove(${index})" class="btn btn__horizontal btn__remove">
+              <button class="btn btn__horizontal btn__remove">
                 <img src="./src/icons/remove-btn.svg" alt="" />
               </button>
             </div>

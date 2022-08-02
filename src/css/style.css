@@ -163,6 +163,7 @@ body {
 }
 
 .btn {
+  min-width: 40px;
   padding: 0;
   cursor: pointer;
   border: none;
@@ -178,7 +179,7 @@ body {
   align-items: center;
 }
 
-.btn__add,
+.btn__config,
 .btn__close {
   width: 40px;
 }
@@ -195,12 +196,17 @@ body {
 }
 
 .btn__add img,
+.btn__config img,
 .btn__close img,
 .btn__remove img,
-.btn__config img {
+.btn__edit img {
   width: 60%;
   height: 60%;
   object-fit: contain;
+}
+
+.btn__add {
+  margin: 0 auto;
 }
 
 .btn__next {
@@ -266,6 +272,15 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.card__item--title textarea {
+  width: 100%;
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px;
 }
 
 @media screen and (min-width: 740px) {
