@@ -167,9 +167,9 @@ const app = {
         cardElm.classList.remove("is-flipped");
         setTimeout(function () {
           soundElm.play();
+          _this.getRandIndex();
         }, 200);
       }
-      _this.getRandIndex();
     };
 
     configBtn.onclick = function () {
@@ -180,20 +180,23 @@ const app = {
       cardList.classList.add("hide");
     };
 
-    _this.removeBtns.forEach((btn, index) => {
-      btn.onclick = function () {
-        let isConfirm = confirm("Bạn chắc chắn muốn xóa thẻ này chứ?");
+    cardListContainer.onclick = function (e) {
+      let removeBtn = e.target.closest(".btn__remove");
+      let editBtn = e.target.closest(".btn__edit");
 
-        if (!isConfirm) return;
+      if (removeBtn) {
+        let dataId = removeBtn.dataset.id;
+        let isConfirmed = confirm("Bạn chắc chắn muốn xóa thẻ này chứ?");
 
-        _this.data.splice(index, 1);
-        _this.cards[index].style.display = "none";
-      };
-    });
+        if (isConfirmed) {
+          _this.data.splice(dataId, 1);
+          _this.render();
+        }
+      }
 
-    _this.editBtns.forEach((btn) => {
-      btn.onclick = function () {
-        let element = btn;
+      if (editBtn) {
+        let dataId = editBtn.dataset.id;
+        let element = editBtn;
         while (element.parentElement) {
           element = element.parentElement;
           if (element.classList.contains("card__item")) {
@@ -201,62 +204,66 @@ const app = {
           }
         }
 
-        element.querySelector("textarea").focus();
-        element
-          .querySelector("textarea")
-          .setSelectionRange(0, this.value.length - 1);
-      };
-    });
+        let textareaElm = element.querySelector("textarea");
+        let btnElm = element.querySelector(".btn");
+
+        btnElm.classList.add("check");
+
+        textareaElm.focus();
+        textareaElm.setSelectionRange(0, textareaElm.value.length);
+
+        btnElm.onclick = function () {
+          _this.data.splice(dataId, 1, { title: textareaElm.value });
+          _this.render();
+        };
+      }
+      _this.setConfig();
+    };
 
     addBtn.onclick = function () {
       let cardItem = document.createElement("div");
-      let isCreate = true;
 
       cardItem.classList.add("card__item");
       cardItem.innerHTML = `
           <div class="card__item--title">
-            <textarea spellcheck="false" rows="3"></textarea>
+            <textarea rows="3" class="form__add"></textarea>
           </div>
           <div class="card__item--controller">
-            <button class="btn btn__horizontal btn__edit">
-              <img src="./src/icons/config-btn.svg" alt="" />
-            </button>
-            <button class="btn btn__horizontal btn__remove">
-              <img src="./src/icons/remove-btn.svg" alt="" />
-            </button>
+            <button class="btn btn__horizontal btn__confirm" disabled>Thêm</button>
           </div>
         `;
 
       cardListContainer.prepend(cardItem);
       let textArea = cardItem.querySelector("textarea");
-      let newRemoveBtn = document.querySelector(".btn__remove");
-      let newEditBtn = document.querySelector(".btn__edit");
-
-      _this.removeBtns.push(newRemoveBtn);
-      _this.editBtns.push(newEditBtn);
-
-      console.log(_this.removeBtns);
+      let confirmBtn = cardItem.querySelector(".btn__confirm");
 
       textArea.focus();
       textArea.onblur = function () {
-        if (this.value.trim()) {
-          if (isCreate) {
-            isCreate = false;
-          } else {
-            _this.data.pop();
-          }
-          _this.data.push({ title: this.value });
-        }
+        confirmBtn.disabled = this.value.trim() ? false : true;
+      };
+
+      textArea.oninput = function () {
+        confirmBtn.disabled = false;
+      };
+
+      confirmBtn.onclick = function () {
+        _this.data.unshift({ title: textArea.value });
+        textArea.value = "";
+
+        _this.render();
       };
     };
   },
   getRandIndex() {
-    while (this.repeatArr.includes(this.currentIndex)) {
-      this.currentIndex = Math.floor(Math.random() * this.data.length);
-    }
-    if ((this.repeatArr.length = this.data.length)) {
-      this.repeatArr.push(this.currentIndex);
-    } else {
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * this.data.length);
+    } while (this.repeatArr.includes(newIndex));
+
+    this.currentIndex = newIndex;
+    this.repeatArr.push(this.currentIndex);
+
+    if (this.repeatArr.length === this.data.length) {
       this.repeatArr = [];
     }
   },
@@ -294,19 +301,20 @@ const app = {
       },
     });
   },
-  list() {
+  render() {
     let html = this.data
       .map(
-        (item) => `
+        (item, index) => `
           <div class="card__item">
             <div class="card__item--title">
               <textarea spellcheck="false" rows="3">${item.title}</textarea>
             </div>
             <div class="card__item--controller">
-              <button class="btn btn__horizontal btn__edit">
-                <img src="./src/icons/config-btn.svg" alt="" />
+              <button data-id="${index}" class="btn btn__horizontal btn__edit ">
+                <img class="icon__edit" src="./src/icons/edit-btn.svg" alt="" />
+                <img class="icon__check" src="./src/icons/check-btn.svg" alt="" />
               </button>
-              <button class="btn btn__horizontal btn__remove">
+              <button data-id="${index}" class="btn btn__horizontal btn__remove">
                 <img src="./src/icons/remove-btn.svg" alt="" />
               </button>
             </div>
@@ -317,7 +325,7 @@ const app = {
     cardListContainer.innerHTML = html;
   },
   start() {
-    this.list();
+    this.render();
     this.defineProperties();
     this.handleEvents();
     this.getCurrentCard();
