@@ -41,11 +41,11 @@ const app = {
       title: "Cùng chơi nối từ, ai thua cuộc thì phải uống 2 ly",
       icon: "./src/icons/wordPlay.svg",
     },
-    {
-      title:
-        "Chọn 1 người và đoán màu nội y của họ. Nếu bạn đoán đúng thì họ uống và ngược lại",
-      icon: "./src/icons/underwear.svg",
-    },
+    // {
+    //   title:
+    //     "Chọn 1 người và đoán màu nội y của họ. Nếu bạn đoán đúng thì họ uống và ngược lại",
+    //   icon: "./src/icons/underwear.svg",
+    // },
     {
       title: "Các bạn nữ nốc đi",
       icon: "./src/icons/girl.svg",
@@ -174,6 +174,8 @@ const app = {
           soundElm.play();
           _this.getRandIndex();
         }, 200);
+      } else {
+        _this.getRandIndex();
       }
     };
 
@@ -185,41 +187,23 @@ const app = {
         soundElm.play();
 
         setTimeout(() => {
+          iconElm.src = "./src/icons/rule.svg";
           titleElm.textContent =
             "Ngồi theo vòng tròn và đặt bộ bài ở giữa. Lần lượt bốc từng lá bài theo vòng và thực hiện nhiệm vụ trên mỗi lá. Mỗi người chỉ được uống 3 lần";
           iconElm.parentElement.style.display = "block";
-          iconElm.src = "./src/icons/rule.svg";
 
           cardElm.classList.add("is-flipped");
           haveShowInfo = true;
           soundElm.play();
         }, 1000);
       } else {
+        iconElm.src = "./src/icons/rule.svg";
         titleElm.textContent =
           "Ngồi theo vòng tròn và đặt bộ bài ở giữa. Lần lượt bốc từng lá bài theo vòng và thực hiện nhiệm vụ trên mỗi lá. Mỗi người chỉ được uống 3 lần";
         iconElm.parentElement.style.display = "block";
-        iconElm.src = "./src/icons/rule.svg";
         cardElm.classList.add("is-flipped");
         soundElm.play();
       }
-
-      // if(hasShowedRule) {
-      //   cardElm.classList.remove("is-flipped");
-      // } else {
-
-      // }
-      // if (cardElm.classList.contains("is-flipped")) {
-      //   cardElm.classList.remove("is-flipped");
-      //   soundElm.play();
-
-      //   setTimeout(function () {
-      //     cardElm.classList.add("is-flipped");
-      //     hasShowedRule = true;
-      //   }, 1000);
-      // } else {
-      //   cardElm.classList.toggle("is-flipped");
-      // }
-      // // soundElm.play();
     };
 
     configBtn.onclick = function () {
@@ -320,8 +304,8 @@ const app = {
   getCurrentCard() {
     titleElm.textContent = this.currentCard.title;
     if (this.currentCard.icon) {
-      iconElm.parentElement.style.display = "block";
       iconElm.src = this.currentCard.icon;
+      iconElm.parentElement.style.display = "block";
     } else {
       iconElm.parentElement.style.display = "none";
     }
