@@ -159,6 +159,8 @@ body {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 10px;
 }
 

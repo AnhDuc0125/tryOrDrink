@@ -9,11 +9,13 @@ const closeBtn = document.querySelector(".btn__close");
 const soundElm = document.querySelector("audio");
 const addBtn = document.querySelector(".btn__add");
 
+const APP_STORAGE_KEY = "APP_STORAGE_KEY";
+
 const app = {
   repeatArr: [],
   currentIndex: 0,
   isFliped: false,
-  data: [
+  data: JSON.parse(localStorage.getItem(APP_STORAGE_KEY)) ?? [
     {
       title: "Uống nếu bạn đã từng crush ai đó trong đây",
       icon: "./src/icons/heart.svg",
@@ -142,12 +144,17 @@ const app = {
         "Mọi người trong đây khi đến lượt đều phải uống 1 ly mà không dùng tay trừ người bốc trong 2 vòng",
     },
   ],
+  setConfig() {
+    localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(this.data));
+  },
   handleEvents() {
     let _this = this;
 
     cardElm.onclick = function () {
       cardElm.classList.toggle("is-flipped");
-      soundElm.play();
+      setTimeout(function () {
+        soundElm.play();
+      }, 200);
       if (!_this.isFliped) {
         _this.getRandIndex();
       }
@@ -156,7 +163,12 @@ const app = {
     };
 
     nextBtn.onclick = function () {
-      cardElm.classList.remove("is-flipped");
+      if (cardElm.classList.contains("is-flipped")) {
+        cardElm.classList.remove("is-flipped");
+        setTimeout(function () {
+          soundElm.play();
+        }, 200);
+      }
       _this.getRandIndex();
     };
 
@@ -203,7 +215,7 @@ const app = {
       cardItem.classList.add("card__item");
       cardItem.innerHTML = `
           <div class="card__item--title">
-            <textarea rows="3"></textarea>
+            <textarea spellcheck="false" rows="3"></textarea>
           </div>
           <div class="card__item--controller">
             <button class="btn btn__horizontal btn__edit">
@@ -217,17 +229,23 @@ const app = {
 
       cardListContainer.prepend(cardItem);
       let textArea = cardItem.querySelector("textarea");
+      let newRemoveBtn = document.querySelector(".btn__remove");
+      let newEditBtn = document.querySelector(".btn__edit");
+
+      _this.removeBtns.push(newRemoveBtn);
+      _this.editBtns.push(newEditBtn);
+
+      console.log(_this.removeBtns);
 
       textArea.focus();
       textArea.onblur = function () {
         if (this.value.trim()) {
           if (isCreate) {
-            _this.data.push({ title: this.value });
             isCreate = false;
           } else {
             _this.data.pop();
-            _this.data.push({ title: this.value });
           }
+          _this.data.push({ title: this.value });
         }
       };
     };
@@ -266,13 +284,13 @@ const app = {
 
     Object.defineProperty(this, "removeBtns", {
       get() {
-        return document.querySelectorAll(".btn__remove");
+        return Array.from(document.querySelectorAll(".btn__remove"));
       },
     });
 
     Object.defineProperty(this, "editBtns", {
       get() {
-        return document.querySelectorAll(".btn__edit");
+        return Array.from(document.querySelectorAll(".btn__edit"));
       },
     });
   },
@@ -303,6 +321,7 @@ const app = {
     this.defineProperties();
     this.handleEvents();
     this.getCurrentCard();
+    this.setConfig();
   },
 };
 
