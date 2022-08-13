@@ -103,7 +103,7 @@ const app = {
       title: 'Lắc mông 15 giây hoặc uống gấp đôi',
     },
     {
-      title: 'Cốc ai còn đầu nhất thì uống thêm 1 ly',
+      title: 'Cốc ai còn đầy nhất thì uống thêm 1 ly',
     },
     {
       title: 'Ai hút thuốc thì uống đi',
